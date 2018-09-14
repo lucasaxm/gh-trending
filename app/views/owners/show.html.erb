@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nodeid:</strong>
+  <%= @owner.nodeid %>
+</p>
+
+<p>
+  <strong>Login:</strong>
+  <%= @owner.login %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @owner.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @owner.type_id %>
+</p>
+
+<p>
+  <strong>Avatar url:</strong>
+  <%= @owner.avatar_url %>
+</p>
+
+<p>
+  <strong>Html url:</strong>
+  <%= @owner.html_url %>
+</p>
+
+<%= link_to 'Edit', edit_owner_path(@owner) %> |
+<%= link_to 'Back', owners_path %>
