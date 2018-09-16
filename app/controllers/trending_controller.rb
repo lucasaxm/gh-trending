@@ -11,10 +11,10 @@ class TrendingController < ApplicationController
     @repositories = {}
     params.reject { |_, v| v.blank? }.each do |param|
       language = param.last
+      logger.info "language received: #{language}"
       results = @client.search_repos("language: #{language}", sort: 'stars', order: 'desc')
+      logger.info "#{results.total_count} #{'records'.pluralize(results.total_count)} found"
       @repositories[language] = find_or_create_repository_list(results.items[0..9])
-      ap language
-      ap results.total_count
     end
   end
 
@@ -50,7 +50,6 @@ class TrendingController < ApplicationController
       repo.errors.full_messages
       repo.save
     end
-    ap repo.class
     repo
   end
 
