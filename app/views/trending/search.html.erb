@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Repositories</h1>
+<% @repositories.each do |lang, repos|  %>
+  <h2><%= lang.capitalize %></h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Nodeid</th>
+      <th>Name</th>
+      <th>Full name</th>
+      <th>Owner</th>
+      <th>Html url</th>
+      <th>Description</th>
+      <th>Stargazers count</th>
+      <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% repos.each do |repository| %>
+      <tr>
+        <td><%= repository.id %></td>
+        <td><%= repository.nodeid %></td>
+        <td><%= repository.name %></td>
+        <td><%= repository.full_name %></td>
+        <td><%= link_to repository.owner.login, repository.owner %></td>
+        <td><%= repository.html_url %></td>
+        <td><%= repository.description %></td>
+        <td><%= repository.stargazers_count %></td>
+        <td><%= link_to 'Show', repository %></td>
+        <td><%= link_to 'Destroy', repository, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <br>
+<% end %>

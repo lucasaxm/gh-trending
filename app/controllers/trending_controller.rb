@@ -1,50 +1,55 @@
 class TrendingController < ApplicationController
   before_action :setup_octokit, only: :search
 
-  # GET /trending
-  # GET /trending.json
+  # GET /
   def index; end
 
-  # GET /trending
-  # GET /trending.json
+  # GET /search
+  # GET /search.json
   def search
     languages = language_params
+    @repositories = {}
     languages.each do |lang|
       results = @client.search_repos("language: #{lang}", sort: 'stars', order: 'desc')
-
-      first10 = results.items[0..9]
-
-      ret = []
-      repo = nil
-      first10.each do |r|
-        begin
-          repo = Repository.find(r.id)
-        rescue ActiveRecord::RecordNotFound
-          repo = Repository.new
-          repo.id = r.id
-          repo.nodeid = r.node_id
-          repo.name = r.name
-          repo.full_name = r.full_name
-          repo.owner = fetch_owner(r.owner)
-          repo.html_url = r.html_url
-          repo.description = r.description
-          repo.stargazers_count = r.stargazers_count
-          repo.created_at = r.created_at
-          repo.updated_at = r.updated_at
-          repo.language = fetch_language(r.language)
-          repo.errors.full_messages
-          repo.save
-        end
-      end
-
-      ret << repo.clone unless repo.nil?
-
+      @repositories[lang] = find_or_create_repository_list(results.items[0..9])
       ap lang
       ap results.total_count
     end
   end
 
   private
+
+  def find_or_create_repository_list(gh_repository_list)
+    repository_list = []
+    gh_repository_list.each do |r|
+      repo = find_or_create_repository(r)
+      repository_list << repo.clone unless repo.nil?
+    end
+    repository_list
+  end
+
+  def find_or_create_repository(gh_repository)
+    begin
+      repo = Repository.find(gh_repository.id)
+    rescue ActiveRecord::RecordNotFound
+      repo = Repository.new
+      repo.id = gh_repository.id
+      repo.nodeid = gh_repository.node_id
+      repo.name = gh_repository.name
+      repo.full_name = gh_repository.full_name
+      repo.owner = fetch_owner(gh_repository.owner)
+      repo.html_url = gh_repository.html_url
+      repo.description = gh_repository.description
+      repo.stargazers_count = gh_repository.stargazers_count
+      repo.created_at = gh_repository.created_at
+      repo.updated_at = gh_repository.updated_at
+      repo.language = fetch_language(gh_repository.language)
+      repo.errors.full_messages
+      repo.save
+    end
+    ap repo.class
+    repo
+  end
 
   def fetch_language(gh_language)
     begin
@@ -94,7 +99,7 @@ class TrendingController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def language_params
-    params.require(%i[lang1 lang2 lang3 lang4 lang5])
+    params.permit(%i[lang1 lang2 lang3 lang4 lang5])
   end
 end
 
