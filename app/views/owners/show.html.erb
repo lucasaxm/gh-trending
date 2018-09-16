@@ -17,7 +17,7 @@
 
 <p>
   <strong>Type:</strong>
-  <%= @owner.type_id %>
+  <%= @owner.type.name.capitalize unless @owner.type.nil? %>
 </p>
 
 <p>

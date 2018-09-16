@@ -7,12 +7,13 @@ class TrendingController < ApplicationController
   # GET /search
   # GET /search.json
   def search
-    languages = language_params
+    params = language_params
     @repositories = {}
-    languages.each do |lang|
-      results = @client.search_repos("language: #{lang}", sort: 'stars', order: 'desc')
-      @repositories[lang] = find_or_create_repository_list(results.items[0..9])
-      ap lang
+    params.reject { |_, v| v.blank? }.each do |param|
+      language = param.last
+      results = @client.search_repos("language: #{language}", sort: 'stars', order: 'desc')
+      @repositories[language] = find_or_create_repository_list(results.items[0..9])
+      ap language
       ap results.total_count
     end
   end
@@ -20,6 +21,7 @@ class TrendingController < ApplicationController
   private
 
   def find_or_create_repository_list(gh_repository_list)
+    return nil if gh_repository_list.nil?
     repository_list = []
     gh_repository_list.each do |r|
       repo = find_or_create_repository(r)
@@ -29,6 +31,7 @@ class TrendingController < ApplicationController
   end
 
   def find_or_create_repository(gh_repository)
+    return nil if gh_repository.nil?
     begin
       repo = Repository.find(gh_repository.id)
     rescue ActiveRecord::RecordNotFound
@@ -52,11 +55,12 @@ class TrendingController < ApplicationController
   end
 
   def fetch_language(gh_language)
-    begin
-      lang_model = Language.find_by_name(gh_language.downcase) unless gh_language.nil?
-    rescue ActiveRecord::RecordNotFound
+    return nil if gh_language.nil?
+    lang_downcased = gh_language.downcase
+    lang_model = Language.find_by_name(lang_downcased)
+    if lang_model.nil?
       lang_model = Language.new
-      lang_model.name = gh_language.downcase
+      lang_model.name = lang_downcased
       lang_model.errors.full_messages
       lang_model.save
     end
@@ -64,6 +68,7 @@ class TrendingController < ApplicationController
   end
 
   def fetch_owner(gh_owner)
+    return nil if gh_owner.nil?
     begin
       owner = Owner.find(gh_owner.id)
     rescue ActiveRecord::RecordNotFound
@@ -82,11 +87,12 @@ class TrendingController < ApplicationController
   end
 
   def fetch_type(owner_type)
-    begin
-      type = Type.find_by_name(owner_type.type)
-    rescue ActiveRecord::RecordNotFound
+    return nil if owner_type.nil?
+    type_downcased = owner_type.type.downcase
+    type = Type.find_by_name(type_downcased)
+    if type.nil?
       type = Type.new
-      type.name = owner_type.type
+      type.name = type_downcased
       type.errors.full_messages
       type.save
     end
