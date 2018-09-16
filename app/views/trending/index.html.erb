@@ -1,12 +1,27 @@
 <h1>Trending</h1>
-<p>Type <%= @number_of_languages %> programming languages:</p>
+<p>Type 5 programming languages:</p>
 <%= form_tag({controller: :trending, action: :search }, method: :get) do %>
-  <% @number_of_languages.times do |i|%>
-    <% lang = "lang#{i.to_s}" %>
-    <div class="field">
-      <%= label_tag lang.to_sym, "Language #{i+1}" %>
-      <%= text_field_tag lang.to_sym %>
-    </div>
-  <% end %>
+
+  <div class="field">
+    <%= label_tag :lang1, "Language 1" %>
+    <%= text_field_tag :lang1 %>
+  </div>
+  <div class="field">
+    <%= label_tag :lang2, "Language 2" %>
+    <%= text_field_tag :lang2 %>
+  </div>
+  <div class="field">
+    <%= label_tag :lang3, "Language 3" %>
+    <%= text_field_tag :lang3 %>
+  </div>
+  <div class="field">
+    <%= label_tag :lang4, "Language 4" %>
+    <%= text_field_tag :lang4 %>
+  </div>
+  <div class="field">
+    <%= label_tag :lang5, "Language 5" %>
+    <%= text_field_tag :lang5 %>
+  </div>
+
   <%= submit_tag("Search") %>
 <% end %>
