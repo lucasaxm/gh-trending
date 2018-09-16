@@ -1,5 +1,12 @@
 class RepositoriesController < ApplicationController
-  before_action :set_repository, only: [:show, :edit, :update, :destroy]
+  before_action :set_repository, only: %i[show edit update destroy]
+  before_action :all_owners, only: %i[new edit]
+
+  # GET /repositories
+  # GET /repositories.json
+  def index
+    @repositories = Repository.all
+  end
 
   # GET /repositories
   # GET /repositories.json
@@ -62,13 +69,18 @@ class RepositoriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_repository
-      @repository = Repository.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def repository_params
-      params.require(:repository).permit(:nodeid, :name, :full_name, :owner_id, :html_url, :description, :stargazers_count)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_repository
+    @repository = Repository.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def repository_params
+    params.require(:repository).permit(:nodeid, :name, :full_name, :owner_id, :html_url, :description, :stargazers_count)
+  end
+
+  def all_owners
+    @owners = Owner.all
+  end
 end

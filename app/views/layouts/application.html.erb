@@ -8,7 +8,19 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+  <nav id="navigator">
+    <%= link_to (trending_index_path) do %>
+      <span class="navbutton" id="trending" onclick="location.href='<%= trending_index_path %>';" > Trending </span>
+    <% end %>
+    <%= link_to (repositories_path) do %>
+      <span class="navbutton" id="repositories" onclick="location.href='<%= repositories_path %>';" > Repositories </span>
+    <% end %>
+    <span class="flashmsg">
+			<% flash.each do |name, msg| %>
+				<%= content_tag :div, msg, :id => "flash#{name}" %>
+			<% end %>
+		</span>
+  </nav>
   <body>
     <%= yield %>
   </body>
