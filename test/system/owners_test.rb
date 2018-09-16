@@ -17,7 +17,6 @@ class OwnersTest < ApplicationSystemTestCase
     fill_in "Avatar Url", with: @owner.avatar_url
     fill_in "Html Url", with: @owner.html_url
     fill_in "Login", with: @owner.login
-    fill_in "Name", with: @owner.name
     fill_in "Nodeid", with: @owner.nodeid
     fill_in "Type", with: @owner.type_id
     click_on "Create Owner"
@@ -33,7 +32,6 @@ class OwnersTest < ApplicationSystemTestCase
     fill_in "Avatar Url", with: @owner.avatar_url
     fill_in "Html Url", with: @owner.html_url
     fill_in "Login", with: @owner.login
-    fill_in "Name", with: @owner.name
     fill_in "Nodeid", with: @owner.nodeid
     fill_in "Type", with: @owner.type_id
     click_on "Update Owner"

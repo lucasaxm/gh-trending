@@ -17,7 +17,7 @@ class OwnersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create owner" do
     assert_difference('Owner.count') do
-      post owners_url, params: { owner: { avatar_url: @owner.avatar_url, html_url: @owner.html_url, login: @owner.login, name: @owner.name, nodeid: @owner.nodeid, type_id: @owner.type_id } }
+      post owners_url, params: { owner: { avatar_url: @owner.avatar_url, html_url: @owner.html_url, login: @owner.login, nodeid: @owner.nodeid, type_id: @owner.type_id } }
     end
 
     assert_redirected_to owner_url(Owner.last)
@@ -34,7 +34,7 @@ class OwnersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update owner" do
-    patch owner_url(@owner), params: { owner: { avatar_url: @owner.avatar_url, html_url: @owner.html_url, login: @owner.login, name: @owner.name, nodeid: @owner.nodeid, type_id: @owner.type_id } }
+    patch owner_url(@owner), params: { owner: { avatar_url: @owner.avatar_url, html_url: @owner.html_url, login: @owner.login, nodeid: @owner.nodeid, type_id: @owner.type_id } }
     assert_redirected_to owner_url(@owner)
   end
 

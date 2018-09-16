@@ -76,7 +76,6 @@ class TrendingController < ApplicationController
       owner.id = gh_owner.id
       owner.nodeid = gh_owner.node_id
       owner.login = gh_owner.login
-      owner.name = gh_owner.name
       owner.type = fetch_type(gh_owner)
       owner.avatar_url = gh_owner.avatar_url
       owner.html_url = gh_owner.html_url
