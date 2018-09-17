@@ -2,7 +2,7 @@
   <div class="card-group" style="padding-left: 20%; padding-right: 20%">
     <% slice.each do |owner| %>
       <div class="card">
-        <%= image_tag owner.avatar_url, {class: 'card-img-top img-thumbnail'} %>
+         <%= link_to image_tag(owner.avatar_url, {class: 'card-img-top img-thumbnail'}), owner %>
         <div class="card-body" style="width: 18rem;">
           <h5 class="card-title">
             <%= owner.login %>
