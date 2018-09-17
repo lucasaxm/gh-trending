@@ -1,36 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Nodeid:</strong>
-  <%= @repository.nodeid %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @repository.name %>
-</p>
-
-<p>
-  <strong>Full name:</strong>
-  <%= @repository.full_name %>
-</p>
-
-<p>
-  <strong>Owner:</strong>
-  <%= @repository.owner_id %>
-</p>
-
-<p>
-  <strong>Html url:</strong>
-  <%= @repository.html_url %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @repository.description %>
-</p>
-
-<p>
-  <strong>Stargazers count:</strong>
-  <%= @repository.stargazers_count %>
-</p>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title"><%= @repository.name %></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><%= @repository.full_name %></h6>
+    <p class="card-text"><%= @repository.stargazers_count %> <%= fa_icon :star, class: :yellow_star %></p>
+    <p class="card-text"><%= @repository.description %></p>
+    <%= link_to @repository.html_url, class: 'btn btn-primary' do %>
+      Visit on Github
+    <% end %>
+  </div>
+</div>

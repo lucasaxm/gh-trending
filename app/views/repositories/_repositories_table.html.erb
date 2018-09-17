@@ -1,0 +1,34 @@
+<div class="table-responsive-md">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col" >Name</th>
+      <th scope="col" >Full name</th>
+      <th scope="col" >Owner</th>
+      <th scope="col" >Description</th>
+      <th scope="col" >Stargazers count</th>
+      <th scope="col" ></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% repositories.each do |repository| %>
+      <tr>
+        <th scope="row" ><%= repository.name %></th>
+        <td><%= repository.full_name %></td>
+        <td><%= link_to repository.owner.login, repository.owner %></td>
+        <td><%= repository.description %></td>
+        <td><%= repository.stargazers_count %></td>
+        <td><%= link_to 'Show', repository %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="center-block apple_pagination">
+  <div class="page_info">
+    <%= page_entries_info repositories %>
+  </div>
+  <%= will_paginate repositories, :container => false %>
+</div>

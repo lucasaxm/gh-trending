@@ -1,32 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Repositories</h1>
-<% @repositories.each do |lang, repos|  %>
-  <h2><%= lang.capitalize %></h2>
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col" >Name</th>
-      <th scope="col" >Full name</th>
-      <th scope="col" >Owner</th>
-      <th scope="col" >Description</th>
-      <th scope="col" >Stargazers count</th>
-      <th scope="col" ></th>
-    </tr>
-    </thead>
+<h1 class="text-center">Repositories</h1>
+<% @repositories.each do |lang, repos| %>
+  <h2 class="text-center"><%= lang.capitalize %></h2>
+  <% repos.each_slice(5) do |slice| %>
+    <div class="card-group" style="padding-left: 20%; padding-right: 20%">
+      <% slice.each do |r| %>
+        <div class="card" style="width: 18rem;">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><%= r.name %></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><%= r.full_name %></h6>
+            <p class="card-text"><%= r.stargazers_count %> <%= fa_icon :star, class: :yellow_star %></p>
+            <p class="card-text"><%= r.description %></p>
+            <%= link_to r.html_url, class: 'btn btn-primary mt-auto' do %>
+              Visit on Github
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <% (5 - (slice.size)).times do %>
+        <div class="card">
 
-    <tbody>
-    <% repos.each do |repository| %>
-      <tr>
-        <th scope="row" ><%= repository.name %></th>
-        <td><%= repository.full_name %></td>
-        <td><%= link_to repository.owner.login, repository.owner %></td>
-        <td><%= repository.description %></td>
-        <td><%= repository.stargazers_count %></td>
-        <td><%= link_to 'Show', repository %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
   <br>
 <% end %>

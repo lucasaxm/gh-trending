@@ -1,26 +1,30 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Nodeid:</strong>
-  <%= @owner.nodeid %>
-</p>
-
-<p>
-  <strong>Login:</strong>
-  <%= @owner.login %>
-</p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @owner.type.name.capitalize unless @owner.type.nil? %>
-</p>
-
-<p>
-  <strong>Avatar url:</strong>
-  <%= @owner.avatar_url %>
-</p>
-
-<p>
-  <strong>Html url:</strong>
-  <%= @owner.html_url %>
-</p>
+<div class="row">
+  <div class="card col-md-4">
+    <%= image_tag @owner.avatar_url, {class: 'card-img-top img-thumbnail'} %>
+    <div class="card-body">
+      <h5 class="card-title">
+        <%= @owner.login %>
+      </h5>
+      <%= link_to @owner.html_url, class: 'btn btn-primary' do %>
+        Visit on Github
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <% @owner.repositories.each do |r| %>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><%= r.name %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= r.full_name %></h6>
+          <p class="card-text"><%= r.stargazers_count %> <%= fa_icon :star, class: :yellow_star %></p>
+          <p class="card-text"><%= r.description %></p>
+          <%= link_to r.html_url, class: 'btn btn-primary' do %>
+            Visit on Github
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
