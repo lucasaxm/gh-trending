@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Ghtrending</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Ghtrending</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-  <nav id="navigator">
-    <%= link_to (trending_index_path) do %>
-      <span class="navbutton" id="trending" onclick="location.href='<%= trending_index_path %>';" > Trending </span>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <%= link_to root_path, {class: 'navbar-brand'} do %>
+      GHTrending
     <% end %>
-    <%= link_to (repositories_path) do %>
-      <span class="navbutton" id="repositories" onclick="location.href='<%= repositories_path %>';" > Repositories </span>
-    <% end %>
-    <span class="flashmsg">
-			<% flash.each do |name, msg| %>
-				<%= content_tag :div, msg, :id => "flash#{name}" %>
-			<% end %>
-		</span>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <% if @repositories_is_empty %>
+            <%= link_to '#', {class: 'nav-link disabled'} do %>
+              Repositories
+            <% end %>
+          <% else %>
+            <%= link_to repositories_path, {class: 'nav-link'} do %>
+              Repositories
+            <% end %>
+          <% end %>
+        </li>
+      </ul>
+      <%= render 'trending/inlineform' %>
+    </div>
   </nav>
-  <body>
-    <%= yield %>
-  </body>
+</header>
+<div class="jumbotron">
+  <%= yield %>
+</div>
+</body>
 </html>

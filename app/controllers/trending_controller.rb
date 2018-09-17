@@ -7,10 +7,10 @@ class TrendingController < ApplicationController
   # GET /search
   # GET /search.json
   def search
-    params = language_params
+    query = language_params
+    params = query.split(',').map(&:strip)
     @repositories = {}
-    params.reject { |_, v| v.blank? }.each do |param|
-      language = param.last
+    params.each do |language|
       logger.info "language received: #{language}"
       results = @client.search_repos("language: #{language}", sort: 'stars', order: 'desc')
       logger.info "#{results.total_count} #{'records'.pluralize(results.total_count)} found"
@@ -103,7 +103,7 @@ class TrendingController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def language_params
-    params.permit(%i[lang1 lang2 lang3 lang4 lang5])
+    params.require(:q)
   end
 end
 

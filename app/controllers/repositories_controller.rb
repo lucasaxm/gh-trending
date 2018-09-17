@@ -5,13 +5,10 @@ class RepositoriesController < ApplicationController
   # GET /repositories
   # GET /repositories.json
   def index
-    @repositories = Repository.all
-  end
-
-  # GET /repositories
-  # GET /repositories.json
-  def index
-    @repositories = Repository.all
+    page = params[:page].nil? ? 1 : params[:page]
+    all = Repository.all
+    @repositories = all.paginate(per_page: 10, page: page)
+                       .order('stargazers_count DESC')
   end
 
   # GET /repositories/1
